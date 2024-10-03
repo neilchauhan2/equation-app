@@ -1,8 +1,14 @@
+import Card from "./components/Card"
+
 function App() {
   return (
-    <>
-      <h1>Equation App</h1>
-    </>
+    <div className="flex items-center justify-center flex-wrap gap-x-44 gap-y-8 m-16">
+      <Card />
+      <Card />
+      <Card />
+      <Card />
+      <Card />
+    </div>
   )
 }
 
