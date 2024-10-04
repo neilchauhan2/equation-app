@@ -1,5 +1,3 @@
-import { useEffect } from "react"
-
 type CardData = {
   equation: string
   nextFunction: string
@@ -13,11 +11,6 @@ type CardProps = {
 
 
 function Card({ cardRef, cardData: { equation, nextFunction, title } }: CardProps) {
-
-  useEffect(() => {
-    console.log(`${title} has data: `, { data: cardRef.current?.getBoundingClientRect() })
-  }, [cardRef])
-
   return (
     <div className="h-[251px] w-[235px] bg-white rounded-xl border border-gray-200 px-5 py-4" ref={cardRef}>
       <span className="text-sm font-semibold text-zinc-400">{title}</span>

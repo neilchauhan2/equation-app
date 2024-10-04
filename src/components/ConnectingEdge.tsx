@@ -4,6 +4,7 @@ type ConnectingEdgeProps = {
   from: React.RefObject<HTMLDivElement>
   to: React.RefObject<HTMLDivElement>
   curveType: "Quadratic" | "Cubic"
+  edgeType: 'input' | 'output' | 'equation'
 }
 
 type Point = {
@@ -15,7 +16,7 @@ type Point = {
   midY: number
 }
 
-const ConnectingEdge = ({ from, to, curveType = "Quadratic" }: ConnectingEdgeProps) => {
+const ConnectingEdge = ({ from, to, curveType = "Quadratic", edgeType }: ConnectingEdgeProps) => {
   if (!from || !to) return null;
   const [path, setPath] = useState("");
   const [startPoint, setStartPoint] = useState<{ x: number, y: number } | null>(null);
@@ -40,15 +41,17 @@ const ConnectingEdge = ({ from, to, curveType = "Quadratic" }: ConnectingEdgePro
 
     if (fromElement && toElement) {
       const { fromX, fromY, toX, toY, midX, midY } = getPoints(fromElement, toElement);
+      const inputLen = edgeType === 'input' ? 30 : 0;
+      const outputLen = edgeType === 'output' ? 30 : 0;
 
       if (curveType === "Quadratic") {
         const pathData = `
-        M ${fromX - 50} ${fromY} 
-        Q ${midX} ${midY + 80}, ${toX - 10} ${toY}
+        M ${fromX - 50 + inputLen} ${fromY} 
+        Q ${midX} ${midY + 80}, ${toX - 10 + outputLen} ${toY}
       `;
 
-        setStartPoint({ x: fromX - 50, y: fromY });
-        setEndPoint({ x: toX - 10, y: toY });
+        setStartPoint({ x: fromX - 50 + inputLen, y: fromY });
+        setEndPoint({ x: toX - 10 + outputLen, y: toY });
 
         setPath(pathData);
       } else if (curveType === "Cubic") {
@@ -69,7 +72,7 @@ const ConnectingEdge = ({ from, to, curveType = "Quadratic" }: ConnectingEdgePro
 
 
   return (
-    <svg className="absolute top-0 left-0 pointer-events-none w-full h-full">
+    <svg className="absolute top-0 left-0 pointer-events-none w-full h-full z-20">
       <path d={path} stroke="#0066FF4F" strokeWidth="7" fill="none" />
       <circle
         cx={startPoint?.x}
