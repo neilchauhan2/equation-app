@@ -2,32 +2,36 @@ import { useEffect, useRef, useState } from "react";
 import Card from "./components/Card"
 import ConnectingEdge from "./components/ConnectingEdge";
 import IOCard from "./components/IOCard";
-
-type CardType = {
-  equation: string;
-  nextFunction: string;
-  title: string;
-  cardRef: React.RefObject<HTMLDivElement>;
-}
-
-type Edge = {
-  from: React.RefObject<HTMLDivElement>;
-  to: React.RefObject<HTMLDivElement>;
-  curveType: "Quadratic" | "Cubic"
-  edgeType: 'input' | 'output' | 'equation'
-}
-
-
-
+import { CardType, Edge } from "./types";
 
 function App() {
   const [edges, setEdges] = useState<Edge[]>([]);
-  const [cards, _] = useState<CardType[]>(prepareCards());
+  const [cards, setCards] = useState<CardType[]>(prepareCards());
   const inputRef = useRef<HTMLInputElement>(null);
   const outputRef = useRef<HTMLInputElement>(null);
+  const [input, setInput] = useState<number | null>(null);
+  const [output, setOutput] = useState<number | null>(null);
+
+  function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
+    setInput(Number(e.target.value));
+  }
+
+  function handleOutputChange(e: React.ChangeEvent<HTMLInputElement>) {
+    setOutput(Number(e.target.value));
+  }
+
+  function handleEquationChange(e: React.ChangeEvent<HTMLInputElement>, id: string) {
+    const { value } = e.target;
+    const card = cards.find(card => card.id === id);
+    if (card) {
+      card.equation = value;
+      setCards([...cards]);
+    }
+  }
 
   function prepareCards() {
     return [...Array(5)].map((_, index) => ({
+      id: `equation-${index}`,
       equation: "",
       nextFunction: `Function ${index + 2}`,
       title: `Function ${index + 1}`,
@@ -88,20 +92,26 @@ function App() {
         {cards.length > 0 &&
           <IOCard
             cardRef={inputRef}
-            value={2}
-            type="input" />}
+            value={input}
+            type="input"
+            handleChange={handleInputChange}
+          />
+        }
       </div>
       <div
         className="col-span-8 flex items-center justify-center flex-wrap gap-16">
-        {cards.map((card, index) => (
+        {cards.map((card) => (
           <Card
-            key={index}
+            key={card.id}
             cardRef={card.cardRef}
             cardData={{
               equation: card.equation,
               nextFunction: card.nextFunction,
               title: card.title
-            }} />
+            }}
+            handleChange={handleEquationChange}
+            id={card.id}
+          />
         ))}
         {inputRef.current &&
           edges.length > 0 &&
@@ -119,8 +129,10 @@ function App() {
         {cards.length > 0 &&
           <IOCard
             cardRef={outputRef}
-            value={120}
-            type="output" />}
+            value={output}
+            type="output"
+            handleChange={handleOutputChange}
+          />}
       </div>
     </div>
   )

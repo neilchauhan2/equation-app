@@ -1,10 +1,6 @@
-type IOCardProps = {
-  cardRef: React.RefObject<HTMLDivElement>;
-  value: number;
-  type: "input" | "output";
-}
+import { IOCardProps } from "../types";
 
-function IOCard({ type, cardRef }: IOCardProps) {
+function IOCard({ type, cardRef, handleChange, value }: IOCardProps) {
   if (cardRef) return (
     <div className="mb-16" ref={cardRef}>
       {type === "output" ?
@@ -21,7 +17,8 @@ function IOCard({ type, cardRef }: IOCardProps) {
           </div>
           <input
             type="text"
-            // value={value}
+            value={value || ""}
+            onChange={handleChange}
             className={`w-[115px] h-[50px] bg-transparent text-lg font-bold rounded-2xl focus:outline-none input-point output-point ${type === "output" ? "pl-11 pr-4 py-2" : "pr-11 pl-4 py-2"}`}
           />
         </div>
