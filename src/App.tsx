@@ -151,7 +151,7 @@ function App() {
     setEdges(edges);
     const result = handleComputation(edges);
     setOutput(result);
-  }, [cards])
+  }, [cards, input])
 
   return (
     <div className="grid grid-cols-12 gap-2 m-16">
