@@ -17,7 +17,10 @@ function IOCard({ type, cardRef, handleChange, value }: IOCardProps) {
           </div>
           <input
             type="text"
-            value={value || ""}
+            value={
+              value !== 0 ? value :
+                type === "output" ? 0 : ""
+            }
             onChange={handleChange}
             className={`w-[115px] h-[50px] bg-transparent text-lg font-bold rounded-2xl focus:outline-none input-point output-point ${type === "output" ? "pl-11 pr-4 py-2" : "pr-11 pl-4 py-2"}`}
           />

@@ -13,6 +13,12 @@ function Card({ cardRef, cardData: { equation, nextFunction, title }, handleChan
       <div className="mt-3">
         <span className="text-sm">Next Function</span>
         <select className="w-[195px] h-[30px] p-1 rounded-lg border border-gray-200 mt-1 text-xs disabled:bg-gray-200 disabled:text-zinc-400" value={nextFunction} disabled>
+          <option value="-">-</option>
+          <option value="Function 1">Function 1</option>
+          <option value="Function 2">Function 2</option>
+          <option value="Function 3">Function 3</option>
+          <option value="Function 4">Function 4</option>
+          <option value="Function 5">Function 5</option>
         </select>
       </div>
       <div className="mt-10 flex justify-between items-center">

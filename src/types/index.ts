@@ -11,6 +11,7 @@ export type Edge = {
   to: React.RefObject<HTMLDivElement>;
   curveType: "Quadratic" | "Cubic";
   edgeType: "input" | "output" | "equation";
+  equation?: string;
 };
 
 export type CardData = {
@@ -28,7 +29,7 @@ export type CardProps = {
 
 export type IOCardProps = {
   cardRef: React.RefObject<HTMLDivElement>;
-  value: number | null;
+  value: number;
   type: "input" | "output";
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
