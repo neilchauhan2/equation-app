@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import toast, { Toaster } from 'react-hot-toast';
 import Card from "./components/Card"
 import ConnectingEdge from "./components/ConnectingEdge";
 import IOCard from "./components/IOCard";
@@ -73,6 +74,7 @@ function App() {
         if (typeof result === "number") {
           inputSoFar = result;
         } else {
+          toast.error(result);
           return inputSoFar;
         }
       }
@@ -147,10 +149,14 @@ function App() {
   }
 
   useEffect(() => {
-    const edges = prepareEdges();
-    setEdges(edges);
-    const result = handleComputation(edges);
-    setOutput(result);
+    let timeoutId: ReturnType<typeof setTimeout>;
+    timeoutId = setTimeout(() => {
+      const edges = prepareEdges();
+      setEdges(edges);
+      const result = handleComputation(edges);
+      setOutput(result);
+    }, 500);
+    return () => clearTimeout(timeoutId);
   }, [cards, input])
 
   return (
@@ -201,6 +207,7 @@ function App() {
             handleChange={handleOutputChange}
           />}
       </div>
+      <Toaster />
     </div>
   )
 }
